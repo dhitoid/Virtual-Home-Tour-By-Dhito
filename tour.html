@@ -14,7 +14,6 @@ html,body{
   height:100%;
   font-family:'Inter',sans-serif;
   overflow:hidden;
-  touch-action:none;
   background:#000;
 }
 
@@ -23,126 +22,87 @@ a-scene{
   inset:0;
 }
 
-/* TOP BAR */
-.topbar{
-  position:fixed;
-  top:14px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:10px;
-  background:rgba(15,23,42,.85);
-  backdrop-filter:blur(12px);
-  padding:10px;
-  border-radius:18px;
-  z-index:30;
-}
-
-.topbar button{
-  border:none;
-  padding:10px 14px;
-  border-radius:14px;
-  background:#0f172a;
-  color:#fff;
-  font-weight:600;
-  font-size:13px;
-}
-
 /* INFO */
 .info{
   position:fixed;
   top:14px;
   left:14px;
-  background:rgba(15,23,42,.82);
-  backdrop-filter:blur(12px);
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
   color:#fff;
-  padding:12px 16px;
-  border-radius:14px;
+  padding:10px 14px;
+  border-radius:12px;
   z-index:20;
+  font-size:13px;
 }
 
-/* NAV */
+/* MINI CONTROLS */
+.controls{
+  position:fixed;
+  right:14px;
+  top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  z-index:30;
+}
+
+.ctrl{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:rgba(0,0,0,.6);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ROOM NAV */
 .nav{
   position:fixed;
   bottom:16px;
   left:50%;
   transform:translateX(-50%);
   display:flex;
-  gap:10px;
-  background:rgba(15,23,42,.85);
-  backdrop-filter:blur(14px);
-  padding:10px;
-  border-radius:18px;
+  gap:6px;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(12px);
+  padding:6px;
+  border-radius:16px;
   z-index:20;
 }
 .nav button{
   border:none;
-  padding:12px 16px;
-  border-radius:14px;
-  background:#0f172a;
+  padding:10px 14px;
+  border-radius:12px;
+  background:transparent;
   color:#fff;
   font-weight:600;
 }
 .nav button.active{
   background:#00c2a8;
-}
-
-/* FLOATING */
-.wa{
-  position:fixed;
-  right:20px;
-  bottom:90px;
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#25D366;
-  color:#fff;
-  font-size:26px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-decoration:none;
-  z-index:30;
-}
-
-.full{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#0f172a;
-  color:#fff;
-  font-size:22px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:30;
+  color:#000;
 }
 </style>
 
 <script>
-/* ===== UNIT FROM URL ===== */
+/* ===== UNIT ===== */
 const params = new URLSearchParams(window.location.search)
 const unit = params.get('unit') || 'type67'
 
-/* ===== SCENE MAP ===== */
 const UNITS = {
   type67:{
     living:'type67/living.jpg',
     bedroom:'type67/bedroom.jpg',
     kitchen:'type67/kitchen.jpg'
-  },
-  type80:{
-    living:'type80/living.jpg',
-    bedroom:'type80/bedroom.jpg',
-    kitchen:'type80/kitchen.jpg'
   }
 }
 
 let current = 'living'
-let controlMode = 'touch'
+let gyroEnabled = false
 
 function setScene(room){
   current = room
@@ -158,32 +118,36 @@ function setScene(room){
 function fullscreen(){
   const el = document.documentElement
   if(!document.fullscreenElement){
-    el.requestFullscreen?.() ||
-    el.webkitRequestFullscreen?.()
+    el.requestFullscreen?.() || el.webkitRequestFullscreen?.()
   }else{
-    document.exitFullscreen?.() ||
-    document.webkitExitFullscreen?.()
+    document.exitFullscreen?.() || document.webkitExitFullscreen?.()
   }
 }
 
-/* ===== CONTROL MODE ===== */
-function setControl(mode){
+/* ===== GYRO SAFE ENABLE ===== */
+async function toggleGyro(){
   const cam = document.getElementById('cam')
 
-  if(mode === 'gyro'){
-    cam.setAttribute('look-controls','enabled:false')
+  if(!gyroEnabled){
+    if (
+      typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof DeviceOrientationEvent.requestPermission === 'function'
+    ) {
+      const perm = await DeviceOrientationEvent.requestPermission()
+      if (perm !== 'granted') return alert('Izin sensor ditolak')
+    }
+
     cam.setAttribute('device-orientation-controls','enabled:true')
+    gyroEnabled = true
   }else{
     cam.setAttribute('device-orientation-controls','enabled:false')
-    cam.setAttribute('look-controls','touchEnabled:true; mouseEnabled:true')
+    gyroEnabled = false
   }
-
-  controlMode = mode
 }
 
 /* ===== BACK ===== */
 function backHome(){
-  window.location.href = 'index.html'
+  location.href = 'index.html'
 }
 </script>
 </head>
@@ -192,20 +156,17 @@ function backHome(){
 
 <div class="info">
   <strong>Pamles Park</strong><br>
-  <small>Virtual Tour – TYPE <?=unit?></small>
+  Virtual Tour
 </div>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <button onclick="backHome()">⬅ Menu</button>
-  <button onclick="setControl('touch')">✋ Sentuh</button>
-  <button onclick="setControl('gyro')">📱 Gerak HP</button>
+<!-- MINI CONTROLS -->
+<div class="controls">
+  <div class="ctrl" onclick="backHome()">⬅</div>
+  <div class="ctrl" onclick="toggleGyro()">📱</div>
+  <div class="ctrl" onclick="fullscreen()">⛶</div>
 </div>
 
-<a class="wa" href="https://wa.me/6281802168184" target="_blank">💬</a>
-<div class="full" onclick="fullscreen()">⛶</div>
-
-<!-- NAV -->
+<!-- ROOM NAV -->
 <div class="nav">
   <button id="living" class="active" onclick="setScene('living')">Living</button>
   <button id="bedroom" onclick="setScene('bedroom')">Kamar</button>
@@ -218,8 +179,10 @@ function backHome(){
     src="assets/sample/type67/living.jpg"
     rotation="0 -90 0"></a-sky>
 
+  <!-- PENTING: look-controls SELALU AKTIF -->
   <a-camera id="cam"
     look-controls="touchEnabled:true; mouseEnabled:true"
+    device-orientation-controls="enabled:false"
     wasd-controls-enabled="false">
     <a-cursor></a-cursor>
   </a-camera>
