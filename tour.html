@@ -1,30 +1,57 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Virtual Tour Rumah</title>
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<meta charset="utf-8">
+<title>Virtual Tour - Pamles Park</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+<style>
+.ui {
+  position:fixed;
+  top:15px;
+  left:15px;
+  background:rgba(0,0,0,.6);
+  color:white;
+  padding:12px 16px;
+  border-radius:10px;
+  font-family:Arial;
+}
+.ui a {
+  color:#00ffd0;
+  text-decoration:none;
+  display:block;
+  margin-top:6px;
+}
+</style>
 </head>
+
 <body>
+
+<div class="ui">
+  <strong>Pamles Park</strong><br>
+  Cluster Modern<br>
+  <a href="index.html">← Kembali</a>
+</div>
 
 <a-scene>
   <a-sky id="scene" src="assets/sample/living.jpg"></a-sky>
 
-  <!-- ke dapur -->
-  <a-text value="Dapur"
-          position="2 1 -3"
-          color="#fff"
-          look-at="[camera]"
-          onclick="document.querySelector('#scene').setAttribute('src','assets/sample/kitchen.jpg')">
-  </a-text>
+  <!-- Hotspot ke Dapur -->
+  <a-circle
+    position="2 1 -3"
+    radius="0.35"
+    color="#00ffd0"
+    onclick="document.querySelector('#scene').setAttribute('src','assets/sample/kitchen.jpg')">
+  </a-circle>
 
-  <!-- ke kamar -->
-  <a-text value="Kamar"
-          position="-2 1 -3"
-          color="#fff"
-          look-at="[camera]"
-          onclick="document.querySelector('#scene').setAttribute('src','assets/sample/bedroom.jpg')">
-  </a-text>
+  <!-- Hotspot ke Kamar -->
+  <a-circle
+    position="-2 1 -3"
+    radius="0.35"
+    color="#ffffff"
+    onclick="document.querySelector('#scene').setAttribute('src','assets/sample/bedroom.jpg')">
+  </a-circle>
 
   <a-camera>
     <a-cursor></a-cursor>
@@ -33,4 +60,3 @@
 
 </body>
 </html>
-
