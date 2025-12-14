@@ -117,6 +117,9 @@ html,body{
 </style>
 
 <script>
+const params = new URLSearchParams(window.location.search)
+unit = params.get('unit') || 'type45'
+
 let unit = 'type45'
 
 function track(e){ console.log('TRACK:',e) }
