@@ -18,21 +18,50 @@ html,body{
   background:#000;
 }
 
-/* TOP INFO */
+a-scene{
+  position:fixed;
+  inset:0;
+}
+
+/* TOP BAR */
+.topbar{
+  position:fixed;
+  top:14px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
+  background:rgba(15,23,42,.85);
+  backdrop-filter:blur(12px);
+  padding:10px;
+  border-radius:18px;
+  z-index:30;
+}
+
+.topbar button{
+  border:none;
+  padding:10px 14px;
+  border-radius:14px;
+  background:#0f172a;
+  color:#fff;
+  font-weight:600;
+  font-size:13px;
+}
+
+/* INFO */
 .info{
   position:fixed;
-  top:16px;
-  left:16px;
+  top:14px;
+  left:14px;
   background:rgba(15,23,42,.82);
   backdrop-filter:blur(12px);
   color:#fff;
   padding:12px 16px;
   border-radius:14px;
   z-index:20;
-  box-shadow:0 20px 40px rgba(0,0,0,.35);
 }
 
-/* BOTTOM BAR */
+/* NAV */
 .nav{
   position:fixed;
   bottom:16px;
@@ -91,12 +120,6 @@ html,body{
   justify-content:center;
   z-index:30;
 }
-
-a-scene{
-  position:fixed;
-  inset:0;
-}
-
 </style>
 
 <script>
@@ -119,6 +142,7 @@ const UNITS = {
 }
 
 let current = 'living'
+let controlMode = 'touch'
 
 function setScene(room){
   current = room
@@ -130,30 +154,36 @@ function setScene(room){
   document.getElementById(room).classList.add('active')
 }
 
+/* ===== FULLSCREEN ===== */
 function fullscreen(){
   const el = document.documentElement
-
-  if (
-    !document.fullscreenElement &&
-    !document.webkitFullscreenElement &&
-    !document.msFullscreenElement
-  ) {
-    if (el.requestFullscreen) {
-      el.requestFullscreen()
-    } else if (el.webkitRequestFullscreen) {
-      el.webkitRequestFullscreen() // Safari
-    } else if (el.msRequestFullscreen) {
-      el.msRequestFullscreen() // IE11
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen()
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen()
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen()
-    }
+  if(!document.fullscreenElement){
+    el.requestFullscreen?.() ||
+    el.webkitRequestFullscreen?.()
+  }else{
+    document.exitFullscreen?.() ||
+    document.webkitExitFullscreen?.()
   }
+}
+
+/* ===== CONTROL MODE ===== */
+function setControl(mode){
+  const cam = document.getElementById('cam')
+
+  if(mode === 'gyro'){
+    cam.setAttribute('look-controls','enabled:false')
+    cam.setAttribute('device-orientation-controls','enabled:true')
+  }else{
+    cam.setAttribute('device-orientation-controls','enabled:false')
+    cam.setAttribute('look-controls','touchEnabled:true; mouseEnabled:true')
+  }
+
+  controlMode = mode
+}
+
+/* ===== BACK ===== */
+function backHome(){
+  window.location.href = 'index.html'
 }
 </script>
 </head>
@@ -162,7 +192,14 @@ function fullscreen(){
 
 <div class="info">
   <strong>Pamles Park</strong><br>
-  <small>Virtual Tour – ${unit.toUpperCase()}</small>
+  <small>Virtual Tour – TYPE <?=unit?></small>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <button onclick="backHome()">⬅ Menu</button>
+  <button onclick="setControl('touch')">✋ Sentuh</button>
+  <button onclick="setControl('gyro')">📱 Gerak HP</button>
 </div>
 
 <a class="wa" href="https://wa.me/6281802168184" target="_blank">💬</a>
@@ -181,7 +218,7 @@ function fullscreen(){
     src="assets/sample/type67/living.jpg"
     rotation="0 -90 0"></a-sky>
 
-  <a-camera
+  <a-camera id="cam"
     look-controls="touchEnabled:true; mouseEnabled:true"
     wasd-controls-enabled="false">
     <a-cursor></a-cursor>
