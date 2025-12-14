@@ -3,79 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pamles Park - Cluster Modern</title>
+<title>Pamles Park – Cluster Modern</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{margin:0;font-family:'Segoe UI',Arial;background:#f4f6f8;color:#222}
+:root{
+  --primary:#00c2a8;
+  --dark:#0f172a;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#f1f5f9;
+  color:#0f172a;
+}
 .hero{
   min-height:100vh;
   background:
-    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+    linear-gradient(120deg,rgba(0,0,0,.65),rgba(0,0,0,.35)),
     url('assets/sample/living.jpg') center/cover;
+  padding:60px 40px;
   color:#fff;
-  padding:40px;
   display:flex;
-  flex-direction:column;
-  justify-content:center;
+  align-items:center;
+}
+.hero-box{
+  max-width:620px;
+  backdrop-filter: blur(8px);
 }
 .badge{
-  background:#00c2a8;
-  padding:6px 14px;
-  border-radius:20px;
-  font-size:14px;
-  width:fit-content;
-  margin-bottom:12px;
-}
-h1{font-size:42px;margin:0}
-.price{font-size:22px;margin:10px 0 25px}
-.btn{
   display:inline-block;
+  padding:8px 16px;
+  border-radius:999px;
+  background:rgba(255,255,255,.15);
+  font-size:14px;
+  margin-bottom:16px;
+}
+h1{
+  font-size:48px;
+  margin:0 0 12px;
+}
+.price{
+  font-size:22px;
+  opacity:.95;
+  margin-bottom:32px;
+}
+.actions a{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:16px 26px;
+  border-radius:14px;
+  font-weight:600;
+  text-decoration:none;
   margin-right:12px;
   margin-bottom:12px;
-  padding:14px 22px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:600;
+  transition:.25s;
 }
-.primary{background:#00c2a8;color:#fff}
-.outline{border:2px solid #fff;color:#fff}
+.primary{
+  background:var(--primary);
+  color:#fff;
+}
+.primary:hover{transform:translateY(-2px)}
+.outline{
+  border:2px solid rgba(255,255,255,.8);
+  color:#fff;
+}
 .section{
   max-width:1100px;
   margin:auto;
-  padding:60px 30px;
+  padding:80px 30px;
+}
+.section h2{
+  font-size:34px;
+  margin-bottom:40px;
 }
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:24px;
 }
 .card{
   background:#fff;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
+  border-radius:20px;
+  padding:28px;
+  box-shadow:0 20px 40px rgba(0,0,0,.08);
 }
 .footer{
-  background:#111;
-  color:#aaa;
+  background:#020617;
+  color:#94a3b8;
   text-align:center;
-  padding:30px;
+  padding:40px 20px;
 }
 .wa{
   position:fixed;
-  right:20px;
-  bottom:20px;
-  background:#25D366;
-  width:60px;
-  height:60px;
+  right:24px;
+  bottom:24px;
+  width:64px;
+  height:64px;
   border-radius:50%;
+  background:#25D366;
   color:#fff;
-  font-size:28px;
+  font-size:30px;
   display:flex;
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
+  z-index:99;
 }
 </style>
 
@@ -90,40 +127,44 @@ function track(e){
 
 <body>
 
-<div class="hero">
-  <div class="badge">Cluster Modern</div>
-  <h1>Pamles Park</h1>
-  <div class="price">Harga mulai <strong>980 Jutaan</strong></div>
+<section class="hero">
+  <div class="hero-box">
+    <div class="badge">Cluster Modern</div>
+    <h1>Pamles Park</h1>
+    <div class="price">Harga mulai <strong>980 Jutaan</strong></div>
 
-  <a href="tour.html" class="btn primary" onclick="track('open_virtual_tour')">
-    🏠 Virtual Tour Rumah
-  </a>
-  <a href="https://wa.me/628xxxxxxxxxx"
-     class="btn outline"
-     onclick="track('cta_whatsapp')"
-     target="_blank">
-     💬 Hubungi WhatsApp
-  </a>
-</div>
+    <div class="actions">
+      <a href="tour.html" class="primary" onclick="track('open_virtual_tour')">
+        🏠 Virtual Tour
+      </a>
+      <a href="https://wa.me/628xxxxxxxxxx"
+         class="outline"
+         target="_blank"
+         onclick="track('cta_whatsapp')">
+         💬 Hubungi Kami
+      </a>
+    </div>
+  </div>
+</section>
 
-<div class="section">
+<section class="section">
   <h2>Kenapa Pamles Park?</h2>
   <div class="grid">
-    <div class="card">🏡 Cluster modern eksklusif</div>
+    <div class="card">🏡 Cluster modern & eksklusif</div>
     <div class="card">🚗 One gate system</div>
-    <div class="card">🌿 Lingkungan hijau</div>
-    <div class="card">📍 Lokasi strategis</div>
+    <div class="card">🌿 Lingkungan hijau & rapi</div>
+    <div class="card">📍 Akses strategis</div>
   </div>
-</div>
+</section>
 
 <div class="footer">
-  © 2025 Dhito Property
+  © 2025 Pamles Park – Cluster Modern Living
 </div>
 
 <a class="wa"
    href="https://wa.me/6281802168184?text=Halo%20saya%20tertarik%20Pamles%20Park"
-   onclick="track('whatsapp_floating')"
-   target="_blank">💬</a>
+   target="_blank"
+   onclick="track('whatsapp_floating')">💬</a>
 
 </body>
 </html>
