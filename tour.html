@@ -1,49 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="utf-8">
-<title>Virtual Tour - Pamles Park</title>
+<meta charset="UTF-8">
+<title>Virtual Tour – Pamles Park</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 
 <style>
-body{margin:0}
-.ui, .floor, .fullscreen{
+body{margin:0;font-family:'Inter',sans-serif}
+.panel{
   position:fixed;
-  background:rgba(0,0,0,.6);
+  background:rgba(15,23,42,.7);
+  backdrop-filter:blur(10px);
   color:#fff;
-  padding:10px 14px;
-  border-radius:10px;
-  font-family:Arial;
-  z-index:9;
+  padding:14px 18px;
+  border-radius:16px;
+  z-index:10;
 }
-.ui{top:15px;left:15px}
-.floor{top:15px;right:15px}
-.floor button{
+.top-left{top:20px;left:20px}
+.top-right{top:20px;right:20px}
+.bottom-left{bottom:20px;left:20px}
+.panel button{
   display:block;
-  margin-bottom:8px;
-  padding:8px 14px;
+  width:100%;
+  margin-top:10px;
+  padding:10px;
   border:none;
-  border-radius:6px;
-  font-weight:bold;
+  border-radius:10px;
+  font-weight:600;
 }
-.fullscreen{bottom:20px;left:20px;font-size:18px}
 .wa{
   position:fixed;
-  right:20px;
-  bottom:20px;
-  background:#25D366;
-  width:60px;
-  height:60px;
+  right:24px;
+  bottom:24px;
+  width:64px;
+  height:64px;
   border-radius:50%;
+  background:#25D366;
   color:#fff;
-  font-size:28px;
+  font-size:30px;
   display:flex;
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  z-index:9;
+  z-index:10;
 }
 </style>
 
@@ -58,7 +60,7 @@ function setScene(img){
     .setAttribute('src','assets/sample/'+img)
   track('scene_'+img)
 }
-function toggleFullscreen(){
+function fullscreen(){
   if(!document.fullscreenElement){
     document.documentElement.requestFullscreen()
     track('fullscreen_on')
@@ -72,28 +74,30 @@ function toggleFullscreen(){
 
 <body>
 
-<div class="ui">
+<div class="panel top-left">
   <strong>Pamles Park</strong><br>
   Cluster Modern<br>
-  <a href="index.html" style="color:#00ffd0;text-decoration:none">← Kembali</a>
+  <a href="index.html" style="color:#5eead4;text-decoration:none">← Kembali</a>
 </div>
 
-<div class="floor">
+<div class="panel top-right">
   <button onclick="setScene('living.jpg')">Lt 1</button>
   <button onclick="setScene('bedroom.jpg')">Lt 2</button>
 </div>
 
-<button class="fullscreen" onclick="toggleFullscreen()">⛶</button>
+<div class="panel bottom-left">
+  <button onclick="fullscreen()">⛶ Full Screen</button>
+</div>
 
 <a class="wa"
-   href="https://wa.me/628xxxxxxxxxx"
-   onclick="track('whatsapp_floating')"
-   target="_blank">💬</a>
+   href="https://wa.me/6281802168184"
+   target="_blank"
+   onclick="track('whatsapp_floating')">💬</a>
 
 <a-scene>
   <a-sky id="scene" src="assets/sample/living.jpg"></a-sky>
 
-  <a-circle position="2 1 -3" radius="0.35" color="#00ffd0"
+  <a-circle position="2 1 -3" radius="0.35" color="#5eead4"
     onclick="setScene('kitchen.jpg')"></a-circle>
 
   <a-circle position="-2 1 -3" radius="0.35" color="#ffffff"
