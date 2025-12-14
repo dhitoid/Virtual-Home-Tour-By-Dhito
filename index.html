@@ -3,39 +3,106 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rumah Contoh Grand Harmoni</title>
+<title>Pamles Park - Cluster Modern</title>
+
 <style>
-body { margin:0; font-family:Arial; background:#f5f5f5; }
+body {
+  margin:0;
+  font-family: 'Segoe UI', Arial;
+  background:#f4f6f8;
+  color:#222;
+}
 .hero {
-  background:#111 url('assets/sample/living.jpg') center/cover;
-  height:100vh;
-  color:white;
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)),
+    url('assets/sample/living.jpg') center/cover;
   display:flex;
   flex-direction:column;
   justify-content:center;
   padding:40px;
+  color:#fff;
 }
-.btn {
-  padding:14px 20px;
-  background:#25D366;
-  color:white;
-  text-decoration:none;
-  margin-top:10px;
+.badge {
+  background:#00c2a8;
   display:inline-block;
-  border-radius:6px;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:14px;
+  margin-bottom:12px;
+}
+h1 { font-size:42px; margin:0; }
+.price { font-size:22px; margin:10px 0 25px; }
+
+.buttons a {
+  display:inline-block;
+  margin-right:12px;
+  margin-bottom:12px;
+  padding:14px 22px;
+  border-radius:8px;
+  text-decoration:none;
+  font-weight:600;
+}
+.btn-primary {
+  background:#00c2a8;
+  color:#fff;
+}
+.btn-outline {
+  border:2px solid #fff;
+  color:#fff;
+}
+
+.section {
+  padding:60px 30px;
+  max-width:1100px;
+  margin:auto;
+}
+.features {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+.card {
+  background:#fff;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+.footer {
+  text-align:center;
+  padding:30px;
+  background:#111;
+  color:#aaa;
 }
 </style>
 </head>
+
 <body>
 
 <div class="hero">
-  <h1>Rumah Contoh Grand Harmoni</h1>
-  <p>Harga mulai 600 Jutaan</p>
+  <div class="badge">Cluster Modern</div>
+  <h1>Pamles Park</h1>
+  <div class="price">Harga mulai <strong>980 Jutaan</strong></div>
 
-  <a class="btn" href="tour.html">🏠 Virtual Tour Rumah</a>
-  <a class="btn" href="https://wa.me/628xxxxxxxxx">💬 Hubungi WhatsApp</a>
+  <div class="buttons">
+    <a href="tour.html" class="btn-primary">🏠 Virtual Tour Rumah</a>
+    <a href="https://wa.me/628xxxxxxxxxx" class="btn-outline">💬 Hubungi WhatsApp</a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Kenapa Pamles Park?</h2>
+  <div class="features">
+    <div class="card">🏡 Cluster modern & eksklusif</div>
+    <div class="card">🚗 One gate system</div>
+    <div class="card">🌿 Lingkungan hijau & tertata</div>
+    <div class="card">📍 Akses strategis</div>
+  </div>
+</div>
+
+<div class="footer">
+  © 2025 Pamles Park. All Rights Reserved.
 </div>
 
 </body>
 </html>
-
