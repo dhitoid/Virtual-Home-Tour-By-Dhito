@@ -96,19 +96,19 @@ html,body{
 <script>
 /* ===== UNIT FROM URL ===== */
 const params = new URLSearchParams(window.location.search)
-const unit = params.get('unit') || 'type45'
+const unit = params.get('unit') || 'type67'
 
 /* ===== SCENE MAP ===== */
 const UNITS = {
-  type45:{
-    living:'type45/living.jpg',
-    bedroom:'type45/bedroom.jpg',
-    kitchen:'type45/kitchen.jpg'
+  type67:{
+    living:'type67/living.jpg',
+    bedroom:'type67/bedroom.jpg',
+    kitchen:'type67/kitchen.jpg'
   },
-  type60:{
-    living:'type60/living.jpg',
-    bedroom:'type60/bedroom.jpg',
-    kitchen:'type60/kitchen.jpg'
+  type80:{
+    living:'type80/living.jpg',
+    bedroom:'type80/bedroom.jpg',
+    kitchen:'type80/kitchen.jpg'
   }
 }
 
@@ -155,7 +155,7 @@ function fullscreen(){
 <!-- SCENE -->
 <a-scene embedded>
   <a-sky id="scene"
-    src="assets/sample/type45/living.jpg"
+    src="assets/sample/type67/living.jpg"
     rotation="0 -90 0"></a-sky>
 
   <a-camera
