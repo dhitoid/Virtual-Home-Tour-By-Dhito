@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Virtual Tour Rumah</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+</head>
+<body>
+
+<a-scene>
+  <a-sky id="scene" src="assets/sample/living.jpg"></a-sky>
+
+  <!-- ke dapur -->
+  <a-text value="Dapur"
+          position="2 1 -3"
+          color="#fff"
+          look-at="[camera]"
+          onclick="document.querySelector('#scene').setAttribute('src','assets/sample/kitchen.jpg')">
+  </a-text>
+
+  <!-- ke kamar -->
+  <a-text value="Kamar"
+          position="-2 1 -3"
+          color="#fff"
+          look-at="[camera]"
+          onclick="document.querySelector('#scene').setAttribute('src','assets/sample/bedroom.jpg')">
+  </a-text>
+
+  <a-camera>
+    <a-cursor></a-cursor>
+  </a-camera>
+</a-scene>
+
+</body>
+</html>
 
