@@ -11,28 +11,27 @@
 <style>
 body{margin:0;font-family:'Inter',sans-serif}
 
-/* PANEL UI */
+/* PANEL */
 .panel{
   position:fixed;
-  background:rgba(15,23,42,.75);
+  background:rgba(15,23,42,.78);
   backdrop-filter:blur(12px);
   color:#fff;
   padding:14px 18px;
   border-radius:16px;
-  z-index:20;
+  z-index:30;
 }
 .top-left{top:20px;left:20px}
 .top-right{top:20px;right:20px}
 .bottom-left{bottom:20px;left:20px}
 
-.panel button{
+.panel button, .panel select{
   width:100%;
   margin-top:10px;
-  padding:10px 14px;
+  padding:10px;
   border:none;
   border-radius:10px;
   font-weight:600;
-  cursor:pointer;
 }
 
 /* WHATSAPP */
@@ -50,78 +49,110 @@ body{margin:0;font-family:'Inter',sans-serif}
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  z-index:20;
+  z-index:30;
 }
 
-/* DENAH OVERLAY */
-.denah-overlay{
+/* DENAH */
+.overlay{
   position:fixed;
   inset:0;
   background:rgba(2,6,23,.75);
-  backdrop-filter:blur(8px);
+  backdrop-filter:blur(10px);
   display:none;
   align-items:center;
   justify-content:center;
   z-index:50;
 }
-.denah-box{
+.box{
   position:relative;
-  max-width:90%;
   background:#fff;
-  border-radius:20px;
   padding:20px;
+  border-radius:20px;
+  max-width:90%;
 }
-.denah-box img{
-  max-width:100%;
-  display:block;
-}
-.denah-close{
+.box img{max-width:100%}
+.close{
   position:absolute;
   top:-14px;
   right:-14px;
-  background:#0f172a;
-  color:#fff;
   width:36px;
   height:36px;
   border-radius:50%;
   border:none;
-  cursor:pointer;
+  background:#0f172a;
+  color:#fff;
 }
 
-/* AREA KLIK DENAH */
+/* LEAD FORM */
+.form input{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+.form button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#00c2a8;
+  color:#fff;
+  font-weight:700;
+}
+
+/* AREA DENAH */
 .area{
   position:absolute;
   border:2px dashed rgba(0,194,168,.7);
-  cursor:pointer;
+}
+
+/* ANIMASI PINTU */
+@keyframes pulse {
+  0%{transform:scale(1);opacity:.7}
+  100%{transform:scale(1.3);opacity:0}
 }
 </style>
 
 <script>
+let unit = 'type45'
+
 function track(e){
   console.log('TRACK:',e)
-  if(window.gtag){gtag('event',e)}
-  if(window.fbq){fbq('trackCustom',e)}
 }
+
+function setUnit(val){
+  unit = val
+  setScene('living.jpg')
+  track('unit_'+val)
+}
+
 function setScene(img){
   document.querySelector('#scene')
     .setAttribute('src','assets/sample/'+img)
-  track('scene_'+img)
+  track(unit+'_scene_'+img)
 }
+
 function fullscreen(){
   if(!document.fullscreenElement){
     document.documentElement.requestFullscreen()
-    track('fullscreen_on')
   } else {
     document.exitFullscreen()
-    track('fullscreen_off')
   }
 }
-function openDenah(){
-  document.getElementById('denah').style.display='flex'
-  track('open_denah')
-}
-function closeDenah(){
-  document.getElementById('denah').style.display='none'
+
+function open(id){document.getElementById(id).style.display='flex'}
+function close(id){document.getElementById(id).style.display='none'}
+
+function submitLead(){
+  let nama = document.getElementById('nama').value
+  let wa = document.getElementById('wa').value
+  if(!nama||!wa) return alert('Lengkapi data')
+  window.open(
+    `https://wa.me/6281802168184?text=Nama:%20${nama}%0AHP:%20${wa}%0AMinat:%20Pamles%20Park`,
+    '_blank'
+  )
+  track('lead_submit')
 }
 </script>
 </head>
@@ -131,35 +162,43 @@ function closeDenah(){
 <!-- PANEL -->
 <div class="panel top-left">
   <strong>Pamles Park</strong><br>
-  Cluster Modern<br>
-  <a href="index.html" style="color:#5eead4;text-decoration:none">← Kembali</a>
+  Cluster Modern
 </div>
 
 <div class="panel top-right">
-  <button onclick="setScene('living.jpg')">Lt 1</button>
-  <button onclick="setScene('bedroom.jpg')">Lt 2</button>
-  <button onclick="openDenah()">🗺️ Denah Rumah</button>
+  <select onchange="setUnit(this.value)">
+    <option value="type45">Type 45</option>
+    <option value="type60">Type 60</option>
+  </select>
+
+  <button onclick="setScene('living.jpg')">Ruang Tamu</button>
+  <button onclick="setScene('bedroom.jpg')">Kamar</button>
+  <button onclick="open('denah')">🗺️ Denah</button>
+  <button onclick="open('lead')">📩 Minat Unit</button>
 </div>
 
 <div class="panel bottom-left">
-  <button onclick="fullscreen()">⛶ Full Screen</button>
+  <button onclick="fullscreen()">⛶ Fullscreen</button>
 </div>
 
-<!-- WHATSAPP -->
 <a class="wa"
-   href="https://wa.me/628xxxxxxxxxx"
-   target="_blank"
-   onclick="track('whatsapp_floating')">💬</a>
+   href="https://wa.me/6281802168184"
+   target="_blank">💬</a>
 
-<!-- VIRTUAL TOUR -->
+<!-- SCENE -->
 <a-scene>
   <a-sky id="scene" src="assets/sample/living.jpg"></a-sky>
 
-  <a-circle position="2 1 -3" radius="0.35" color="#5eead4"
-    onclick="setScene('kitchen.jpg')"></a-circle>
+  <!-- PINTU ANIMASI -->
+  <a-circle position="1.5 1 -3" radius="0.35" color="#00ffd0"
+    animation="property: scale; from:1 1 1; to:1.3 1.3 1.3; dur:1200; loop:true"
+    onclick="setScene('kitchen.jpg')">
+  </a-circle>
 
-  <a-circle position="-2 1 -3" radius="0.35" color="#ffffff"
-    onclick="setScene('bedroom.jpg')"></a-circle>
+  <a-circle position="-2 1 -3" radius="0.35" color="#fff"
+    animation="property: scale; from:1 1 1; to:1.3 1.3 1.3; dur:1200; loop:true"
+    onclick="setScene('bedroom.jpg')">
+  </a-circle>
 
   <a-camera>
     <a-cursor></a-cursor>
@@ -167,24 +206,25 @@ function closeDenah(){
 </a-scene>
 
 <!-- DENAH -->
-<div class="denah-overlay" id="denah">
-  <div class="denah-box">
-    <button class="denah-close" onclick="closeDenah()">✕</button>
-
+<div class="overlay" id="denah">
+  <div class="box">
+    <button class="close" onclick="close('denah')">✕</button>
     <img src="assets/sample/denah.png">
+    <div class="area" style="top:20%;left:15%;width:30%;height:25%"
+      onclick="setScene('living.jpg');close('denah')"></div>
+  </div>
+</div>
 
-    <!-- AREA KLIK (ATUR POSISI SESUAI DENAH) -->
-    <div class="area"
-      style="top:20%;left:15%;width:30%;height:25%"
-      onclick="setScene('living.jpg');closeDenah()"></div>
-
-    <div class="area"
-      style="top:20%;right:15%;width:25%;height:25%"
-      onclick="setScene('kitchen.jpg');closeDenah()"></div>
-
-    <div class="area"
-      style="bottom:15%;left:30%;width:30%;height:25%"
-      onclick="setScene('bedroom.jpg');closeDenah()"></div>
+<!-- LEAD FORM -->
+<div class="overlay" id="lead">
+  <div class="box">
+    <button class="close" onclick="close('lead')">✕</button>
+    <h3>Minat Unit Pamles Park</h3>
+    <div class="form">
+      <input id="nama" placeholder="Dhito">
+      <input id="wa" placeholder="081802168184">
+      <button onclick="submitLead()">Kirim & Chat WhatsApp</button>
+    </div>
   </div>
 </div>
 
