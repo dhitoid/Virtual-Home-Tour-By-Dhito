@@ -30,8 +30,8 @@ body{
   align-items:center;
 }
 .hero-box{
-  max-width:620px;
-  backdrop-filter: blur(8px);
+  max-width:640px;
+  backdrop-filter: blur(10px);
 }
 .badge{
   display:inline-block;
@@ -48,8 +48,44 @@ h1{
 .price{
   font-size:22px;
   opacity:.95;
-  margin-bottom:32px;
+  margin-bottom:28px;
 }
+
+/* UNIT SELECTOR */
+.unit-box{
+  background:rgba(255,255,255,.12);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:24px;
+}
+.unit-box label{
+  font-size:14px;
+  opacity:.85;
+}
+.unit{
+  display:flex;
+  gap:14px;
+  margin-top:12px;
+}
+.unit button{
+  flex:1;
+  padding:16px;
+  border:none;
+  border-radius:14px;
+  background:rgba(255,255,255,.18);
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  transition:.25s;
+}
+.unit button.active,
+.unit button:hover{
+  background:var(--primary);
+  color:#fff;
+}
+
+/* ACTION */
 .actions a{
   display:inline-flex;
   align-items:center;
@@ -71,6 +107,7 @@ h1{
   border:2px solid rgba(255,255,255,.8);
   color:#fff;
 }
+
 .section{
   max-width:1100px;
   margin:auto;
@@ -91,12 +128,14 @@ h1{
   padding:28px;
   box-shadow:0 20px 40px rgba(0,0,0,.08);
 }
+
 .footer{
   background:#020617;
   color:#94a3b8;
   text-align:center;
   padding:40px 20px;
 }
+
 .wa{
   position:fixed;
   right:24px;
@@ -117,10 +156,17 @@ h1{
 </style>
 
 <script>
-function track(e){
-  console.log('TRACK:',e)
-  if(window.gtag){gtag('event',e)}
-  if(window.fbq){fbq('trackCustom',e)}
+let selectedUnit = 'type45'
+
+function selectUnit(unit){
+  selectedUnit = unit
+  document.querySelectorAll('.unit button')
+    .forEach(b=>b.classList.remove('active'))
+  document.getElementById(unit).classList.add('active')
+}
+
+function openTour(){
+  window.location.href = `tour.html?unit=${selectedUnit}`
 }
 </script>
 </head>
@@ -133,14 +179,26 @@ function track(e){
     <h1>Pamles Park</h1>
     <div class="price">Harga mulai <strong>980 Jutaan</strong></div>
 
+    <!-- UNIT SELECTOR -->
+    <div class="unit-box">
+      <label>Pilih Tipe Unit</label>
+      <div class="unit">
+        <button id="type45" class="active" onclick="selectUnit('type45')">
+          Type 45
+        </button>
+        <button id="type60" onclick="selectUnit('type60')">
+          Type 60
+        </button>
+      </div>
+    </div>
+
     <div class="actions">
-      <a href="tour.html" class="primary" onclick="track('open_virtual_tour')">
-        🏠 Virtual Tour
+      <a href="javascript:void(0)" class="primary" onclick="openTour()">
+        🏠 Mulai Virtual Tour
       </a>
       <a href="https://wa.me/6281802168184"
          class="outline"
-         target="_blank"
-         onclick="track('cta_whatsapp')">
+         target="_blank">
          💬 Hubungi Kami
       </a>
     </div>
@@ -163,8 +221,7 @@ function track(e){
 
 <a class="wa"
    href="https://wa.me/6281802168184?text=Halo%20saya%20tertarik%20Pamles%20Park"
-   target="_blank"
-   onclick="track('whatsapp_floating')">💬</a>
+   target="_blank">💬</a>
 
 </body>
 </html>
