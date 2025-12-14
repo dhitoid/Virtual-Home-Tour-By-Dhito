@@ -10,27 +10,32 @@
 
 <style>
 body{margin:0;font-family:'Inter',sans-serif}
+
+/* PANEL UI */
 .panel{
   position:fixed;
-  background:rgba(15,23,42,.7);
-  backdrop-filter:blur(10px);
+  background:rgba(15,23,42,.75);
+  backdrop-filter:blur(12px);
   color:#fff;
   padding:14px 18px;
   border-radius:16px;
-  z-index:10;
+  z-index:20;
 }
 .top-left{top:20px;left:20px}
 .top-right{top:20px;right:20px}
 .bottom-left{bottom:20px;left:20px}
+
 .panel button{
-  display:block;
   width:100%;
   margin-top:10px;
-  padding:10px;
+  padding:10px 14px;
   border:none;
   border-radius:10px;
   font-weight:600;
+  cursor:pointer;
 }
+
+/* WHATSAPP */
 .wa{
   position:fixed;
   right:24px;
@@ -45,7 +50,49 @@ body{margin:0;font-family:'Inter',sans-serif}
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  z-index:10;
+  z-index:20;
+}
+
+/* DENAH OVERLAY */
+.denah-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(2,6,23,.75);
+  backdrop-filter:blur(8px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:50;
+}
+.denah-box{
+  position:relative;
+  max-width:90%;
+  background:#fff;
+  border-radius:20px;
+  padding:20px;
+}
+.denah-box img{
+  max-width:100%;
+  display:block;
+}
+.denah-close{
+  position:absolute;
+  top:-14px;
+  right:-14px;
+  background:#0f172a;
+  color:#fff;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:none;
+  cursor:pointer;
+}
+
+/* AREA KLIK DENAH */
+.area{
+  position:absolute;
+  border:2px dashed rgba(0,194,168,.7);
+  cursor:pointer;
 }
 </style>
 
@@ -69,11 +116,19 @@ function fullscreen(){
     track('fullscreen_off')
   }
 }
+function openDenah(){
+  document.getElementById('denah').style.display='flex'
+  track('open_denah')
+}
+function closeDenah(){
+  document.getElementById('denah').style.display='none'
+}
 </script>
 </head>
 
 <body>
 
+<!-- PANEL -->
 <div class="panel top-left">
   <strong>Pamles Park</strong><br>
   Cluster Modern<br>
@@ -83,17 +138,20 @@ function fullscreen(){
 <div class="panel top-right">
   <button onclick="setScene('living.jpg')">Lt 1</button>
   <button onclick="setScene('bedroom.jpg')">Lt 2</button>
+  <button onclick="openDenah()">🗺️ Denah Rumah</button>
 </div>
 
 <div class="panel bottom-left">
   <button onclick="fullscreen()">⛶ Full Screen</button>
 </div>
 
+<!-- WHATSAPP -->
 <a class="wa"
-   href="https://wa.me/6281802168184"
+   href="https://wa.me/628xxxxxxxxxx"
    target="_blank"
    onclick="track('whatsapp_floating')">💬</a>
 
+<!-- VIRTUAL TOUR -->
 <a-scene>
   <a-sky id="scene" src="assets/sample/living.jpg"></a-sky>
 
@@ -107,6 +165,28 @@ function fullscreen(){
     <a-cursor></a-cursor>
   </a-camera>
 </a-scene>
+
+<!-- DENAH -->
+<div class="denah-overlay" id="denah">
+  <div class="denah-box">
+    <button class="denah-close" onclick="closeDenah()">✕</button>
+
+    <img src="assets/sample/denah.png">
+
+    <!-- AREA KLIK (ATUR POSISI SESUAI DENAH) -->
+    <div class="area"
+      style="top:20%;left:15%;width:30%;height:25%"
+      onclick="setScene('living.jpg');closeDenah()"></div>
+
+    <div class="area"
+      style="top:20%;right:15%;width:25%;height:25%"
+      onclick="setScene('kitchen.jpg');closeDenah()"></div>
+
+    <div class="area"
+      style="bottom:15%;left:30%;width:30%;height:25%"
+      onclick="setScene('bedroom.jpg');closeDenah()"></div>
+  </div>
+</div>
 
 </body>
 </html>
